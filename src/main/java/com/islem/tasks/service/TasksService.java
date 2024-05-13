@@ -16,4 +16,12 @@ public interface TasksService {
 
     void delete(Integer id);
 
+    void assignTaskToUser(Integer taskId, Integer userId);
+
+    void addTeamMember(Integer taskId, Integer userId);
+
+    void updateTeamMember(Integer taskId, Integer userId);
+
+    void removeTeamMember(Integer taskId, Integer userId);
+
 }

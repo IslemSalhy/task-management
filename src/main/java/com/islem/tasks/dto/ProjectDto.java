@@ -24,14 +24,14 @@ public class ProjectDto {
 
     private String description;
 
-    private UserDto user;
+    private List<UserDto> user;
 
     private List<TasksDto> tasksList;
 
     public static Project toEntity(ProjectDto projectDto) {
         Project project = new Project();
 
-        project.setUser(UserDto.toEntity(projectDto.getUser()));
+        project.setUser(projectDto.getUser().stream().map(UserDto::toEntity).collect(Collectors.toList()));
         project.setId(projectDto.getId());
         project.setName(projectDto.getName());
         project.setDescription(projectDto.getDescription());

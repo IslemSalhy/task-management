@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.util.List;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,10 +24,22 @@ public class Tasks implements Serializable {
     private ZonedDateTime startDate;
     private ZonedDateTime endDate;
     private boolean favorite;
+
+    @ManyToMany(mappedBy = "tasks")
+    private List<User> users; // Relation Many-to-Many avec User
+
     @ManyToOne
-    @JoinColumn(name="projectid")
+    @JoinColumn(name = "project_id")
     @JsonIgnore
     private Project project;
+
+    public List<User> getUser() {
+        return this.users;
+    }
+    public void setUsers(List<User> user) {
+        this.users = users;
+    }
+
 
 
 }

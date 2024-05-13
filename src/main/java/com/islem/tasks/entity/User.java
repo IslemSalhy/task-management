@@ -1,5 +1,6 @@
 package com.islem.tasks.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,7 +25,7 @@ public class User implements UserDetails {
     private String firstName;
     @Column(name = "last name")
     private String lastName;
-    @Column(name = "email")
+    @Column(name = "Email")
     private String email;
     @Column(name = "password")
     private String password;
@@ -36,8 +37,12 @@ public class User implements UserDetails {
     private String imageUrl;
     @Column(name = "user code")
     private String userCode;
-    @OneToMany
-            (mappedBy = "user", fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_project",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "project_id"))
+    @JsonIgnore
     private List<Project> project;
 
     @Override
@@ -74,8 +79,14 @@ public class User implements UserDetails {
     public String setUserCode() {
         return userCode;
     }
-    public String getUserCode() {
-        return userCode;
-    }
+
     public String toString(){return "";}
+    @ManyToMany
+    @JoinTable(
+            name = "user_tasks",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "task_id")
+    )
+    private List<Tasks> tasks;
+
 }
