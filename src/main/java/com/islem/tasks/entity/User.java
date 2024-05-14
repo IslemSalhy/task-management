@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -81,7 +83,7 @@ public class User implements UserDetails {
     }
 
     public String toString(){return "";}
-    @ManyToMany
+    @ManyToMany@Fetch(FetchMode.JOIN)
     @JoinTable(
             name = "user_tasks",
             joinColumns = @JoinColumn(name = "user_id"),

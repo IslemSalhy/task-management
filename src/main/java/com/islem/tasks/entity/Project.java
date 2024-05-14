@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
@@ -32,7 +34,7 @@ public class Project implements Serializable {
 
     @Column(name = "description", length = 255)
     private String description;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany@Fetch(FetchMode.JOIN)
     @JoinTable(
             name = "user_project",
             joinColumns = @JoinColumn(name = "project_id"),

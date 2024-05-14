@@ -33,7 +33,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
 
 
         //----
-        if (authHeader==null || authHeader.isBlank()){
+        if (authHeader==null || !authHeader.startsWith("Bearer ")){
             filterChain.doFilter(request, response);
             return;
         }

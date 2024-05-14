@@ -25,6 +25,7 @@ public class UserDto {
     private String password;
     @JsonIgnore
     private List<ProjectDto> project;
+    private List<TasksDto> tasks;
 
     public static User toEntity(UserDto userDto) {
 
