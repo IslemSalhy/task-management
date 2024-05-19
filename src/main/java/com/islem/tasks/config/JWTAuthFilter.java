@@ -48,7 +48,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
                 );
                 token.setDetails((new WebAuthenticationDetailsSource().buildDetails(request)));
                 securityContext.setAuthentication(token);
-                SecurityContextHolder.setContext(securityContext);  ////chatgpt
+                SecurityContextHolder.setContext(securityContext);  //chatgpt
 
             }
         }

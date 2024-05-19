@@ -1,6 +1,5 @@
 package com.islem.tasks.schedulingtasks;
 
-
 import com.islem.tasks.entity.Project;
 import com.islem.tasks.entity.User;
 import com.islem.tasks.service.impl.ProjectServiceImpl;
@@ -10,10 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import com.islem.tasks.service.EmailService;
-import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -24,9 +20,10 @@ public class ScheduledTasks {
     private final ProjectServiceImpl projectService;
     private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
 
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     //@Scheduled(fixedRate = 5000)
+
     @Scheduled(cron = "0 0 0 * * ?")
     public void projectDelayEndSoon() {
         List<Project> projects = projectService.findProjectsEndingToday();
@@ -39,7 +36,5 @@ public class ScheduledTasks {
             log.info("Message sent");
         }
     }
-
-
 
 }
