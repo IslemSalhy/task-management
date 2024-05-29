@@ -44,8 +44,8 @@ public class User implements UserDetails {
             name = "user_project",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "project_id"))
-    @JsonIgnore
-    private List<Project> project;
+ // @JsonIgnore
+   // private List<Project> project;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -82,7 +82,7 @@ public class User implements UserDetails {
         return userCode;
     }
 
-    public String toString(){return "";}
+
     @ManyToMany@Fetch(FetchMode.JOIN)
     @JoinTable(
             name = "user_tasks",
@@ -91,4 +91,11 @@ public class User implements UserDetails {
     )
     private List<Tasks> tasks;
 
+    
+    @Override
+	public String toString() {
+		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+				+ ", password=" + password + ", role=" + role + ", userName=" + userName + ", imageUrl=" + imageUrl
+				+ ", userCode=" + userCode +  ", tasks=" + tasks + "]";
+	}
 }

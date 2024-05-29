@@ -31,7 +31,7 @@ public class ScheduledTasks {
             User user = project.getUser().get(0);
             String email = user.getEmail();
             String subject = "Projectify : Project Deadline Alert";
-            String text = String.format("%s will end soon at %s", project.getName(), project.getEndDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+            String text = String.format("%s will end soon at %s", project.getName(), project.getEndDate().formatted(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
             emailService.sendSimpleMessage(email, subject, text);
             log.info("Message sent");
         }

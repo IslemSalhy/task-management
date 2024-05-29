@@ -33,8 +33,9 @@ public class ProjectController {
     }
 
     @PatchMapping(value ="adminuser/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProjectDto> updateProject(@RequestBody ProjectDto projectDto) {
-        return new ResponseEntity<>(projectService.save(projectDto), HttpStatus.CREATED);
+    public ResponseEntity<?> updateProject(@RequestBody ProjectDto projectDto) {
+    	Object updateproject = projectService.UpdateProject(projectDto);
+    	return new ResponseEntity<>(updateproject, HttpStatus.CREATED);
     }
 
     @GetMapping(value = "adminuser/all", produces = MediaType.APPLICATION_JSON_VALUE)

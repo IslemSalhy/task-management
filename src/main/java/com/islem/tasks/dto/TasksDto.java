@@ -22,9 +22,11 @@ public class TasksDto {
 
     private String description;
 
-    private ZonedDateTime startDate;
-
-    private boolean done;
+    private String startDate;
+    
+     private String endDate;
+    private Integer idUser ;
+    private boolean done ;
 
     private boolean favorite;
 
@@ -38,18 +40,24 @@ public class TasksDto {
         tasks.setDescription(tasksDto.getDescription());
         tasks.setDone(tasksDto.isDone());
         tasks.setFavorite(tasksDto.isFavorite());
-        tasks.setStartDate(ZonedDateTime.now());
+        tasks.setStartDate(ZonedDateTime.now().toString());
         tasks.setProject(ProjectDto.toEntity(tasksDto.getProject()));
 
         return tasks;
     }
     public static TasksDto fromEntity(Tasks tasks ) {
+    	Integer idUser = null ;
+    	 if(tasks.getUsers() != null ) {
+    		 idUser = tasks.getUsers().getId();
+    	 }
         return TasksDto.builder()
                 .id(tasks.getId())
                 .title(tasks.getTitle())
                 .description(tasks.getDescription())
                 .startDate(tasks.getStartDate())
                 .done(tasks.isDone())
+                .idUser(idUser)
+                .endDate(tasks.getEndDate())
                 .favorite(tasks.isFavorite())
                 .build();
     }

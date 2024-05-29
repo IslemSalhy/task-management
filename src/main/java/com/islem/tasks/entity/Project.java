@@ -30,7 +30,7 @@ public class Project implements Serializable {
     private String name;
 
     @Column(name = "endDate")
-    private ZonedDateTime endDate;
+    private String endDate;
 
     @Column(name = "description", length = 255)
     private String description;

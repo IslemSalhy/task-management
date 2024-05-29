@@ -23,6 +23,7 @@ public class UserDto {
     private String email;
     private String userName;
     private String password;
+    private String imageUrl;
     @JsonIgnore
     private List<ProjectDto> project;
     private List<TasksDto> tasks;
@@ -36,10 +37,10 @@ public class UserDto {
         user.setUserName(userDto.getUserName());
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
-        user.setProject(userDto.getProject() != null ? userDto.getProject().
+     //   user.setProject(userDto.getProject() != null ? userDto.getProject().
 
-                stream().map(ProjectDto::toEntity).collect(Collectors.toList()) : null
-        );
+          //      stream().map(ProjectDto::toEntity).collect(Collectors.toList()) : null
+       // );
         return user;
     }
 
@@ -50,9 +51,10 @@ public class UserDto {
                 .lastName(user.getLastName())
                 .userName(user.getUsername())
                 .password(user.getPassword())
+                .imageUrl(user.getImageUrl())
                 .email(user.getEmail())
-                .project(
-                        user.getProject() != null ? user.getProject().stream().map(ProjectDto::fromEntity).collect(Collectors.toList()) : null)
+             //   .project(
+              //          user.getProject() != null ? user.getProject().stream().map(ProjectDto::fromEntity).collect(Collectors.toList()) : null)
 
                 .build();
     }

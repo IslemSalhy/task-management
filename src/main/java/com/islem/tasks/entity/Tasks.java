@@ -21,24 +21,19 @@ public class Tasks implements Serializable {
     private String title;
     private String description;
     private boolean done;
-    private ZonedDateTime startDate;
-    private ZonedDateTime endDate;
+    private String startDate;
+    private String endDate;
     private boolean favorite;
 
-    @ManyToMany(mappedBy = "tasks")
-    private List<User> users; // Relation Many-to-Many avec User
+    @ManyToOne
+    private User users; // Relation Many-to-Many avec User
 
     @ManyToOne
     @JoinColumn(name = "project_id")
     @JsonIgnore
     private Project project;
 
-    public List<User> getUser() {
-        return this.users;
-    }
-    public void setUsers(List<User> user) {
-        this.users = users;
-    }
+  
 
 
 

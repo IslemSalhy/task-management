@@ -21,4 +21,6 @@ public interface ProjectService {
 //end
     List<ProjectDto> getAllTasksByProjectsForToday(Integer userId);
 
+	Object UpdateProject(ProjectDto projectDto);
+
 }

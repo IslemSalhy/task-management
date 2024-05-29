@@ -1,5 +1,6 @@
 package com.islem.tasks.controller;
 
+import com.islem.tasks.dto.TasksCreateDto;
 import com.islem.tasks.dto.TasksDto;
 import com.islem.tasks.service.TasksService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,14 @@ public class TasksController {
     public ResponseEntity<TasksDto> createTasks(@RequestBody TasksDto tasksDto) {
         return new ResponseEntity<>(tasksService.save(tasksDto), HttpStatus.CREATED);
     }
-
+    @PostMapping(value = "/adminuser/tasksCreate", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> tasksCreate(@RequestBody TasksCreateDto tasksDto) {
+        return new ResponseEntity<>(tasksService.saveTasksCreate(tasksDto), HttpStatus.CREATED);
+    }
+    @PatchMapping(value = "/adminuser/tasksUpdate", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> tasksUpdate(@RequestBody TasksCreateDto tasksDto) {
+        return new ResponseEntity<>(tasksService.tasksUpdate(tasksDto), HttpStatus.CREATED);
+    }
     @PatchMapping(value = "/adminuser/tasks_update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TasksDto> updateTasks(@RequestBody TasksDto tasksDto) {
         return new ResponseEntity<>(tasksService.save(tasksDto), HttpStatus.CREATED);
@@ -38,7 +46,12 @@ public class TasksController {
         return new ResponseEntity<>(tasksService.findById(taskId), HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/adminuser/tasks_delete_{id:.+}")
+    @GetMapping(value = "/adminuser/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getTasksByUser(@PathVariable Integer id) {
+        return new ResponseEntity<>(tasksService.getTasksByUser(id), HttpStatus.OK);
+    }
+    
+    @DeleteMapping(value = "/adminuser/tasks_delete_/{id}")
     public ResponseEntity deleteTasks(@PathVariable Integer id) {
         tasksService.delete(id);
         return new ResponseEntity(HttpStatus.OK);

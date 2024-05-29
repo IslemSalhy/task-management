@@ -61,7 +61,8 @@ public class AuthService {
             response.setRefreshToken(refreshToken);
             response.setExpirationTime("24Hr");
             response.setMessage("Successfully Signed In");
-        }catch (Exception e){
+            response.setUser(user);     
+            }catch (Exception e){
             response.setStatusCode(500);
             response.setError(e.getMessage());
         }

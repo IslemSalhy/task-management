@@ -23,6 +23,7 @@ public class ProjectDto {
     private String name;
 
     private String description;
+    private String endDate ;
 
     private List<UserDto> user;
 
@@ -35,7 +36,7 @@ public class ProjectDto {
         project.setId(projectDto.getId());
         project.setName(projectDto.getName());
         project.setDescription(projectDto.getDescription());
-
+        project.setEndDate(projectDto.getEndDate());
 
         return project;
     }
@@ -48,6 +49,7 @@ public class ProjectDto {
                 .tasksList(
                         project.getTasksList() != null ? project.getTasksList().stream().map(TasksDto::fromEntity).collect(Collectors.toList()) : null
                 )
+                .user(project.getUser() != null ? project.getUser().stream().map(UserDto::fromEntity).collect(Collectors.toList()) : null )
                 .build();
     }
 }

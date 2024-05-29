@@ -1,7 +1,11 @@
 package com.islem.tasks.controller;
 
+import com.islem.tasks.entity.Tasks;
 import com.islem.tasks.entity.User;
+import com.islem.tasks.service.TasksService;
 import com.islem.tasks.service.UserServicee;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,6 +18,9 @@ import java.util.List;
 public class UserController {
 
     private final UserServicee userServicee;
+    
+    @Autowired
+    private  TasksService tasksService ;
 
     public UserController(UserServicee userServicee) {
         this.userServicee = userServicee;
@@ -21,9 +28,9 @@ public class UserController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/all")
-    public ResponseEntity<?> getAllUsers() {
+    public ResponseEntity< List<User>> getAllUsers() {
 
-            return new ResponseEntity<>(userServicee.findAll(), HttpStatus.OK);
+            return new ResponseEntity< List<User>>(userServicee.findAll(), HttpStatus.OK);
 
     }
     @PreAuthorize("hasRole('ADMIN')")
@@ -36,6 +43,8 @@ public class UserController {
     @GetMapping("/findByEmail/{ide}")
     public ResponseEntity<User> getUserByIde(@PathVariable("ide") String ide) {
         User user = userServicee.findUserByEmail(ide);
+        List<Tasks> task  = tasksService.getTasksByUser(user.getId());
+        user.setTasks(task);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 

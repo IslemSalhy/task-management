@@ -1,6 +1,7 @@
 package com.islem.tasks.service.impl;
 
 import com.islem.tasks.dto.ProjectDto;
+import com.islem.tasks.dto.TasksCreateDto;
 import com.islem.tasks.dto.TasksDto;
 import com.islem.tasks.dto.UserDto;
 import com.islem.tasks.entity.User;
@@ -18,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -126,17 +128,17 @@ public class TasksServiceImpl implements TasksService {
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
 
         // Vérifier si la liste d'utilisateurs n'est pas vide
-        if (!task.getUsers().isEmpty()) {
+        if (task.getUsers() != null) {
             // Sélectionnez un utilisateur à partir de la liste, par exemple le premier utilisateur
-            User existingUser = task.getUsers().get(0);
+            User existingUser = task.getUsers();
 
             // Assignez cet utilisateur à la tâche
-            task.setUsers(Collections.singletonList(existingUser));
+            task.setUsers(existingUser);
         } else {
             // Gérer le cas où la liste d'utilisateurs est vide
             // Vous pouvez choisir d'ajouter l'utilisateur directement à la liste ou de lever une exception
             // Par exemple, ajouter directement l'utilisateur à la liste :
-            task.setUsers(Collections.singletonList(user));
+            task.setUsers(null);
             // Ou lever une exception indiquant que la liste d'utilisateurs est vide :
             throw new RuntimeException("La liste d'utilisateurs est vide pour la tâche avec l'ID : " + taskId);
         }
@@ -178,10 +180,49 @@ public class TasksServiceImpl implements TasksService {
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
 
         // Supprimer l'utilisateur de la liste des membres de l'équipe
-        task.getUser().remove(user);
+        task.setUsers(null);
 
         // Enregistrer les modifications dans la base de données
         tasksRepository.save(task);
     }
+
+	@Override
+	public Object saveTasksCreate(TasksCreateDto tasksDto) {
+		// TODO Auto-generated method stub
+		Optional<Project> myProject = projectRepository.findById(tasksDto.getIdProject());
+		Optional<User> myUser = userRepository.findById(tasksDto.getIdUser());
+		    Tasks tasks = new Tasks();
+	        tasks.setTitle(tasksDto.getTitle());
+	        tasks.setProject(myProject.get());
+	        tasks.setDescription(tasksDto.getDescription());
+	        tasks.setDone(false);
+	        tasks.setFavorite(false);
+	        tasks.setUsers(myUser.get());
+	        tasks.setStartDate(ZonedDateTime.now().toString());
+	        tasksRepository.save(tasks);
+
+		return tasks;
+	}
+
+	@Override
+	public Object tasksUpdate(TasksCreateDto tasksDto) {
+		// TODO Auto-generated method stub
+		Optional<Tasks> task = tasksRepository.findById(tasksDto.getId());
+		task.get().setDescription(tasksDto.getDescription());
+		task.get().setTitle(tasksDto.getTitle());	
+		if( tasksDto.isFavorite()  == true  ||   tasksDto.isFavorite()  == false ) {
+			task.get().setFavorite(tasksDto.isFavorite());
+		}
+		
+		tasksRepository.save(task.get());
+		return task;
+	}
+
+	@Override
+	public List<Tasks> getTasksByUser(Integer id) {
+		// TODO Auto-generated method stub
+		List<Tasks> task  = tasksRepository.findTasksByUsers_id(id);
+		return task;
+	}
 
 }
